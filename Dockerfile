@@ -1,6 +1,9 @@
 FROM node:20.19-bullseye
-WORKDIR /app
-COPY . .
-RUN npm ci --omit=dev
-CMD ["sh", "-c", "export N8N_PORT=$PORT; n8n start"]
 
+WORKDIR /app
+
+# Install n8n globally inside the container
+RUN npm install -g n8n
+
+# Railway will inject $PORT at runtime
+CMD ["sh", "-c", "export N8N_PORT=$PORT; n8n start"]
